@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { Bid } from "../models/Bid";
 import { AuthRequest } from "../middlewares/auth.middleware";
 
@@ -51,7 +51,9 @@ export const acceptBid = async (req: AuthRequest, res: Response): Promise<any> =
     if (!bid) return res.status(404).json({ message: "Bid not found" });
 
     // Check if employer owns this job
-    if ((bid.job as any).postedBy.toString() !== req.user?.id) {
+    if ((bid.job as any).postedBy._id.toString() !== req.user?.id) {
+      console.log("Employer ID:", (bid.job as any).postedBy._id.toString());
+      console.log("Current User ID:", req.user?.id);  
       return res.status(403).json({ message: "Not authorized to accept this bid" });
     }
 

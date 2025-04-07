@@ -24,10 +24,12 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
 };
 
 export const verifyEmployer = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  console.log("Verifying employer role...");
   if (req.user?.role !== "employer") {
     res.status(403).json({ message: "Access denied: Employers only" });
     return;
   }
+  console.log("Employer Verified");
   next();
 };
 
@@ -40,5 +42,7 @@ export const verifyFreelancer = (req: AuthRequest, res: Response, next: NextFunc
 };
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  console.log("Authenticating user...");
   verifyToken(req, res, next);
+  console.log("User authenticated");
 };
